@@ -25,3 +25,21 @@ func TestServiceCreateConection(t *testing.T) {
 	assert.Nil(t, err)
 	assert.True(t, result)
 }
+
+func TestServiceGetFriend(t *testing.T) {
+	cfg, _ := config.New("../../shared/config/")
+	dbInstance, _ := data.NewDbFactory(cfg)
+	conn, _ := dbInstance.DBConnection()
+
+	service, err := friend.NewService(conn)
+
+	assert.Nil(t, err)
+	assert.NotNil(t, service)
+
+	email := "test1@example.com"
+
+	result, err := service.ConnectionList(email)
+	assert.Nil(t, err)
+	assert.NotNil(t, result)
+	assert.Len(t, result, 2)
+}

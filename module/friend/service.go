@@ -23,7 +23,7 @@ func NewService(Db *gorm.DB) (*Service, error) {
 	return &Service{db: Db}, nil
 }
 
-//CreateConnection : service to connect two email as a friend
+//CreateConnection : function to connect two email as a friend
 func (s *Service) CreateConnection(emails []string) (bool, error) {
 	if emails == nil || len(emails) != 2 {
 		return false, errors.New("Email collection is empty or lenght is not is equal 2")
@@ -77,4 +77,26 @@ func (s *Service) CreateConnection(emails []string) (bool, error) {
 	tx.Close()
 	return true, nil
 
+}
+
+//ConnectionList : function to list all of user's friend
+func (s *Service) ConnectionList(email string) ([]string, error) {
+	if email == "" {
+		return nil, errors.New("Email field empty")
+	}
+
+	var mails []string
+	var connections []model.Connection
+
+	errs := s.db.Find(&connections, &model.Connection{Email1: email}).Pluck("Email2", &mails).GetErrors()
+
+	if len(errs) > 0 {
+		return nil, errs[0]
+	}
+
+	if len(mails) == 0 {
+		return nil, errors.New("This user doesn't have any friend")
+	}
+
+	return mails, nil
 }

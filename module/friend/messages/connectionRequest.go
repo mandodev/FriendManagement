@@ -1,4 +1,4 @@
-package contact
+package friend
 
 //ConnectionRequest : message structure for connection request
 type ConnectionRequest struct {

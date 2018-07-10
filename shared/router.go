@@ -63,6 +63,7 @@ func (r *Router) SetupRouter() *gin.Engine {
 	friend := router.Group("api/v1/friend")
 	{
 		friend.POST("/connect", r.friendController.CreateConnection)
+		friend.POST("/list", r.friendController.List)
 	}
 
 	return router
