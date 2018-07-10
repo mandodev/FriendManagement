@@ -116,6 +116,12 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/satori/uuid"
+  packages = ["."]
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/spf13/afero"
   packages = [".","mem"]
   revision = "787d034dfe70e44075ccc060d346146ef53270ad"
@@ -202,6 +208,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ec6e7d7a0eb4463035ef65c96bd02fe15d11677df791104200255ac00b2a258c"
+  inputs-digest = "6174bacfc8dce3358dfa30016e0d950137967e4e75cdcd271e05b274ec03a342"
   solver-name = "gps-cdcl"
   solver-version = 1

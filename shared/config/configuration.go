@@ -12,9 +12,14 @@ type Configuration struct {
 }
 
 //New : Instantiate new Configuration instance
-func New() (*Configuration, error) {
+func New(customPath string) (*Configuration, error) {
+	path := "./shared/config/"
+	if customPath != "" {
+		path = customPath
+	}
+
 	viper.SetConfigName("default")
-	viper.AddConfigPath("../../shared/config/")
+	viper.AddConfigPath(path)
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {

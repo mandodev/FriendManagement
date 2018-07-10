@@ -1,11 +1,13 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 
 	"github.com/FriendManagement/shared"
 	"github.com/FriendManagement/shared/config"
+	"github.com/FriendManagement/shared/data"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"github.com/jinzhu/gorm"
@@ -19,10 +21,14 @@ var (
 )
 
 func init() {
+	flag.BoolVar(&runMigration, "migrate", false, "run db migration")
+	flag.Parse()
+
+	glog.V(2).Info("Migration status : %s", runMigration)
 	glog.V(2).Info("Initilizing server...")
 
 	//Setup Configuration
-	cfg, err := config.New()
+	cfg, err := config.New("")
 	if err != nil {
 		glog.Fatalf("Failed to load configuration: %s", err)
 		panic(fmt.Errorf("Fatal error on load configuration : %s ", err))
@@ -30,7 +36,24 @@ func init() {
 	configuration = *cfg
 
 	//Setup Router
-	router = shared.SetupRouter()
+	routerInstance := shared.NewRouter(configuration)
+	router = routerInstance.SetupRouter()
+
+	if runMigration == true {
+		dbMigration, error := data.NewDbMigration(&configuration)
+		if error != nil {
+			glog.Fatalf("Failed instantiate dbmigration : %s", error)
+		}
+
+		success, error := dbMigration.Migrate()
+
+		if error != nil {
+			glog.Fatalf("Failed migrate: %s", error)
+		}
+
+		glog.V(2).Infof("database migration : %s", success)
+
+	}
 }
 
 func main() {
