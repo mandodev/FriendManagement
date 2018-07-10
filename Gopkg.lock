@@ -152,6 +152,12 @@
   version = "v1.2.2"
 
 [[projects]]
+  name = "github.com/szuecs/gin-glog"
+  packages = ["."]
+  revision = "da59244bde84149ae00db0c2b8e62b9d899e6993"
+  version = "v1.1.1"
+
+[[projects]]
   name = "github.com/ugorji/go"
   packages = ["codec"]
   revision = "b4c50a2b199d93b13dc15e78929cfb23bfdf21ab"
@@ -196,6 +202,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "bc1c60734fc13afca68eb042a06aa8fda4d6d34823c86dcdb6b2b17cd76cc3ba"
+  inputs-digest = "ec6e7d7a0eb4463035ef65c96bd02fe15d11677df791104200255ac00b2a258c"
   solver-name = "gps-cdcl"
   solver-version = 1
