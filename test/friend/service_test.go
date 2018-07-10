@@ -41,5 +41,5 @@ func TestServiceGetFriend(t *testing.T) {
 	result, err := service.ConnectionList(email)
 	assert.Nil(t, err)
 	assert.NotNil(t, result)
-	assert.Len(t, result, 2)
+	assert.Len(t, result, 1)
 }

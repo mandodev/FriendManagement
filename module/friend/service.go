@@ -88,7 +88,7 @@ func (s *Service) ConnectionList(email string) ([]string, error) {
 	var mails []string
 	var connections []model.Connection
 
-	errs := s.db.Find(&connections, &model.Connection{Email1: email}).Pluck("Email2", &mails).GetErrors()
+	errs := s.db.Where("Email1 = ?", email).Find(&connections, &model.Connection{Email1: email}).Pluck("Email2", &mails).GetErrors()
 
 	if len(errs) > 0 {
 		return nil, errs[0]
