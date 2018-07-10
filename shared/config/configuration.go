@@ -14,7 +14,7 @@ type Configuration struct {
 //New : Instantiate new Configuration instance
 func New() (*Configuration, error) {
 	viper.SetConfigName("default")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath("../../shared/config/")
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
