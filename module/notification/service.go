@@ -73,18 +73,15 @@ func (s *Service) Block(request *messages.NotificationRequest) (bool, error) {
 	if connection.ID == uuid.Nil {
 		tx := s.db.Begin()
 		error1 := tx.Create(&model.Connection{Email1: request.Requestor, Email2: request.Target, Blocked: true, Subscribe: false}).Error
-		error2 := tx.Create(&model.Connection{Email1: request.Target, Email2: request.Requestor, Blocked: false, Subscribe: false}).Error
 
-		if error1 != nil || error2 != nil {
+		if error1 != nil {
 			glog.Errorf("error create connection %s", error1.Error())
-			glog.Errorf("error create connection %s", error2.Error())
-
 			tx.Rollback()
 			return true, nil
 		}
 		tx.Commit()
 
-		return false, errors.New("No friend connection found")
+		return true, nil
 	}
 
 	if connection.Blocked {
