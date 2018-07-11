@@ -16,7 +16,7 @@ func TestSubscribe(t *testing.T) {
 	conn, _ := dbInstance.DBConnection()
 
 	service, err := notification.NewService(conn)
-	request := &messages.SubscribeRequest{Requestor: "friend1@example.com", Target: "common@example.com"}
+	request := &messages.NotificationRequest{Requestor: "friend1@example.com", Target: "common@example.com"}
 	result, err := service.Subscribe(request)
 
 	assert.NotNil(t, result)

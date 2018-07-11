@@ -27,7 +27,7 @@ func NewService(Db *gorm.DB) (*Service, error) {
 }
 
 //Subscribe : Service for subscribe update to an email
-func (s *Service) Subscribe(request *messages.SubscribeRequest) (bool, error) {
+func (s *Service) Subscribe(request *messages.NotificationRequest) (bool, error) {
 	if request.Requestor == "" || request.Target == "" {
 		return false, errors.New("Requestor or Target is undefined")
 	}

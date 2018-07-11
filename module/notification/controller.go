@@ -23,7 +23,7 @@ func NewController(service *Service) (*Controller, error) {
 
 //Subscribe : function that allow user to subscribe update based on email address
 func (c *Controller) Subscribe(ctx *gin.Context) {
-	var request messages.SubscribeRequest
+	var request messages.NotificationRequest
 	var errors []string
 
 	if err := ctx.ShouldBindWith(&request, binding.JSON); err != nil {
