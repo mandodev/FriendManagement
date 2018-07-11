@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSubscribe(t *testing.T) {
+func TestServiceSubscribe(t *testing.T) {
 	cfg, _ := config.New("../../shared/config/")
 	dbInstance, _ := data.NewDbFactory(cfg)
 	conn, _ := dbInstance.DBConnection()
@@ -18,6 +18,19 @@ func TestSubscribe(t *testing.T) {
 	service, err := notification.NewService(conn)
 	request := &messages.NotificationRequest{Requestor: "friend1@example.com", Target: "common@example.com"}
 	result, err := service.Subscribe(request)
+
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}
+
+func TestServiceBlockEmail(t *testing.T) {
+	cfg, _ := config.New("../../shared/config/")
+	dbInstance, _ := data.NewDbFactory(cfg)
+	conn, _ := dbInstance.DBConnection()
+
+	service, err := notification.NewService(conn)
+	request := &messages.NotificationRequest{Requestor: "friend1@example.com", Target: "common@example.com"}
+	result, err := service.Block(request)
 
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
