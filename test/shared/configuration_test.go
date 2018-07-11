@@ -1,13 +1,14 @@
-package config
+package test
 
 import (
 	"testing"
 
+	"github.com/FriendManagement/shared/config"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestReadConfigurationFromFile(t *testing.T) {
-	cfg, err := New()
+	cfg, err := config.New("../../shared/config/")
 
 	assert.Empty(t, err)
 

@@ -20,3 +20,7 @@
 #  name = "github.com/x/y"
 #  version = "2.4.0"
 
+
+[[constraint]]
+  name = "gopkg.in/go-playground/validator.v9"
+  version = "9.20.2"

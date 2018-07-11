@@ -6,17 +6,21 @@ import (
 
 	"github.com/FriendManagement/shared"
 	"github.com/FriendManagement/shared/config"
+	"github.com/FriendManagement/test"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUtilityDispatchFunction(t *testing.T) {
-	cfg, err := config.New("../shared/config/")
-	assert.Empty(t, err)
-	configuration := *cfg
+//TestRouterDiagnosticEndPoint : Test Diagnostic Endpoint
+func TestRouterDiagnosticEndPoint(t *testing.T) {
+	cfg, err := config.New("../../shared/config/")
 
+	assert.Empty(t, err)
+
+	configuration := *cfg
 	routerInstance := shared.NewRouter(configuration)
 	router := routerInstance.SetupRouter()
 
-	response := DispatchRequest(router, "GET", "/api/v1/ping", nil)
+	response := test.DispatchRequest(router, "GET", "/api/v1/ping", nil)
+
 	assert.Equal(t, http.StatusOK, response.Code)
 }
