@@ -52,12 +52,10 @@ func (s *Service) CreateConnection(emails []string) (bool, error) {
 
 		if err := tx.Create(&model.Connection{Email1: connections[0].Email2, Email2: connections[0].Email1, Blocked: false, Subscribe: false}).Error; err != nil {
 			tx.Rollback()
-			tx.Close()
 			return false, errors.New("Error when create connection " + err.Error())
 		}
 
 		tx.Commit()
-		tx.Close()
 
 		return true, nil
 	}
@@ -70,11 +68,9 @@ func (s *Service) CreateConnection(emails []string) (bool, error) {
 		glog.Errorf("error create connection %s", error2.Error())
 
 		tx.Rollback()
-		tx.Close()
 		return false, errors.New("Error when create connection")
 	}
 	tx.Commit()
-	tx.Close()
 	return true, nil
 
 }
@@ -92,6 +88,29 @@ func (s *Service) ConnectionList(email string) ([]string, error) {
 
 	if len(errs) > 0 {
 		return nil, errs[0]
+	}
+
+	if len(mails) == 0 {
+		return nil, errors.New("This user doesn't have any friend")
+	}
+
+	return mails, nil
+}
+
+//CommonConnection : function to get common connection between two emails
+func (s *Service) CommonConnection(emails []string) ([]string, error) {
+	if emails == nil || len(emails) != 2 {
+		return nil, errors.New("Email collection is empty or lenght is not is equal 2")
+	}
+
+	var mails []string
+	var connections []model.Connection
+
+	errs := s.db.Select("ANY_VALUE(Email1), Email2").Where("email1=? OR email1=?", emails[0], emails[1]).Group("email2").Having("count(*) > 1").Find(&connections).Pluck("Email2", &mails).GetErrors()
+
+	if len(errs) > 0 {
+		glog.Error(errs)
+		return nil, errors.New("error occured when get common friend, please see logs")
 	}
 
 	if len(mails) == 0 {

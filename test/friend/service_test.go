@@ -43,3 +43,20 @@ func TestServiceGetFriend(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Len(t, result, 1)
 }
+
+func TestCommonConnection(t *testing.T) {
+	cfg, _ := config.New("../../shared/config/")
+	dbInstance, _ := data.NewDbFactory(cfg)
+	conn, _ := dbInstance.DBConnection()
+
+	service, err := friend.NewService(conn)
+
+	assert.Nil(t, err)
+	assert.NotNil(t, service)
+
+	emails := []string{"friend1@example.com", "friend2@example.com"}
+
+	result, err := service.CommonConnection(emails)
+	assert.Nil(t, err)
+	assert.Len(t, result, 1)
+}
