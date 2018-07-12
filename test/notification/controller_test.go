@@ -42,3 +42,19 @@ func TestBlockEmail(t *testing.T) {
 	assert.Equal(t, http.StatusOK, response.Code)
 	assert.Equal(t, "{\"success\":true}", s)
 }
+
+func TestNotificationUpdate(t *testing.T) {
+	cfg, err := config.New("../../shared/config/")
+	assert.Empty(t, err)
+	configuration := *cfg
+
+	payload := bytes.NewBuffer([]byte(`{"sender":"common@example.com", "text":"Hello World ! lalala@example.com"}`))
+	routerInstance := shared.NewRouter(configuration)
+	router := routerInstance.SetupRouter()
+
+	response := test.DispatchRequest(router, "POST", "/api/v1/notification/update", payload)
+	s := string(response.Body.Bytes())
+	assert.NotEmpty(t, s)
+	assert.Equal(t, http.StatusOK, response.Code)
+	assert.Equal(t, "{\"recipients\":[\"lalala@example.com\"],\"success\":true}", s)
+}

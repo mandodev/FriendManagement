@@ -35,3 +35,16 @@ func TestServiceBlockEmail(t *testing.T) {
 	assert.NotNil(t, result)
 	assert.Nil(t, err)
 }
+
+func TestServiceUpdateList(t *testing.T) {
+	cfg, _ := config.New("../../shared/config/")
+	dbInstance, _ := data.NewDbFactory(cfg)
+	conn, _ := dbInstance.DBConnection()
+
+	service, err := notification.NewService(conn)
+	request := &messages.UpdateRequest{Sender: "friend1@example.com", Text: "Hello! common@example.com"}
+	result, err := service.Update(request)
+
+	assert.NotNil(t, result)
+	assert.Nil(t, err)
+}

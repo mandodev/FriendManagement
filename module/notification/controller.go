@@ -80,3 +80,33 @@ func (c *Controller) Block(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{"success": true})
 }
+
+//Update : get list of email that can receive update from an email address
+func (c *Controller) Update(ctx *gin.Context) {
+	var request messages.UpdateRequest
+	var errors []string
+
+	if err := ctx.ShouldBindWith(&request, binding.JSON); err != nil {
+		ve, ok := err.(validator.ValidationErrors)
+		if ok {
+			for _, v := range ve {
+				msg := fmt.Sprintf("%s is %s", v.Field, v.Tag)
+				if v.Tag == "len" {
+					msg = fmt.Sprintf("%s %s should be %s", v.Field, v.Tag, v.Param)
+				}
+				errors = append(errors, msg)
+			}
+		} else {
+			errors = append(errors, err.Error())
+		}
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"success": false, "errors": errors})
+		return
+	}
+	result, err := c.notificationService.Update(&request)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"success": result, "errors": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"success": true, "recipients": result})
+}

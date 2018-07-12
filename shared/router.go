@@ -97,6 +97,7 @@ func (r *Router) SetupRouter() *gin.Engine {
 	notification := router.Group("api/v1/notification")
 	{
 		notification.POST("/subscribe", r.notificationController.Subscribe)
+		notification.POST("/update", r.notificationController.Update)
 	}
 
 	return router

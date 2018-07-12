@@ -2,6 +2,7 @@ package notification
 
 import (
 	"errors"
+	"regexp"
 
 	"github.com/satori/uuid"
 
@@ -101,4 +102,23 @@ func (s *Service) Block(request *messages.NotificationRequest) (bool, error) {
 	tx.Commit()
 
 	return true, nil
+}
+
+//Update : Service to get list of email that can get update from an email address
+func (s *Service) Update(request *messages.UpdateRequest) ([]string, error) {
+	regx := regexp.MustCompile(`([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)`)
+	emails := regx.FindAllString(request.Text, -1)
+
+	var connections []model.Connection
+
+	if err := s.db.Where("email2 =? AND Blocked=? AND Subscribe=?", request.Sender, false, true).Find(&connections).Error; err != nil {
+		glog.Errorf("Error when create subscibe request,error : %s", err.Error())
+		return nil, err
+	}
+
+	for _, connection := range connections {
+		emails = append(emails, connection.Email1)
+	}
+
+	return emails, nil
 }
