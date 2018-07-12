@@ -79,7 +79,7 @@ func (r *Router) SetupRouter() *gin.Engine {
 				"Name":       "Friend Management",
 				"message":    "OK",
 				"serverTime": time.Now().UTC(),
-				"version":    "0.0.1",
+				"version":    "0.1",
 			})
 		})
 	}
