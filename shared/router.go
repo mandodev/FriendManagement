@@ -90,7 +90,6 @@ func (r *Router) SetupRouter() *gin.Engine {
 		friend.POST("/connect", r.friendController.CreateConnection)
 		friend.POST("/list", r.friendController.List)
 		friend.POST("/common", r.friendController.Common)
-		friend.POST("/subscribe", r.notificationController.Subscribe)
 	}
 
 	//notification endpoint
@@ -98,6 +97,7 @@ func (r *Router) SetupRouter() *gin.Engine {
 	{
 		notification.POST("/subscribe", r.notificationController.Subscribe)
 		notification.POST("/update", r.notificationController.Update)
+		notification.POST("/block", r.notificationController.Block)
 	}
 
 	return router
