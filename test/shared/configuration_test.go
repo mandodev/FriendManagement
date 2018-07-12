@@ -8,7 +8,7 @@ import (
 )
 
 func TestReadConfigurationFromFile(t *testing.T) {
-	cfg, err := config.New()
+	cfg, err := config.New("../../shared/config/")
 
 	assert.Empty(t, err)
 

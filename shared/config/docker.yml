@@ -5,4 +5,4 @@ server:
 
 database:
   dbType: "mysql"       # possible value: mssql, mysql, postgres and sqlite 
-  connectionUri: "root:root@tcp(localhost:3306)/fmanagement?tls=skip-verify&autocommit=true&parseTime=true"
+  connectionUri: "root:root@tcp(db:3306)/fmanagement?tls=skip-verify&autocommit=true&parseTime=true"
