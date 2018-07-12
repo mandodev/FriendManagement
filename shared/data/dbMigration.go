@@ -31,7 +31,7 @@ func NewDbMigration(cfg *config.Configuration) (*DbMigration, error) {
 	return &DbMigration{connection: conn}, nil
 }
 
-//Migrate : function to invoke gotm's automigrate
+//Migrate : function to invoke gorm's automigrate
 func (d *DbMigration) Migrate() (bool, error) {
 	glog.Info("Start Database Migration")
 

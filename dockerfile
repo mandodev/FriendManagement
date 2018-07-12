@@ -12,4 +12,5 @@ RUN go get -u github.com/golang/dep/cmd/dep \
 EXPOSE 8080
 VOLUME [ "/var/log/friendmanagement" ]
 
-ENTRYPOINT [ "FriendManagement","-migrate", "-log_dir", "/var/log/friendmanagement", "-alsologtostderr", "-stderrthreshold", "warning", "-v", "2" ]
+#ENTRYPOINT [ "FriendManagement","-migrate", "-log_dir", "/var/log/friendmanagement", "-alsologtostderr", "-stderrthreshold", "warning", "-v", "2" ]
+ENTRYPOINT ["FriendManagement"]
